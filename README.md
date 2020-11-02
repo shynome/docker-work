@@ -6,7 +6,7 @@
 
 ## 初始化
 
-- `git clone xxxx.git /work` 克隆本仓库到服务器上
+- `git clone https://github.com/shynome/docker-work.git /work` 克隆本仓库到服务器上
 - `curl -sSL https://get.docker.com | sh` 安装 docker
 - `apt install automake` 安装 `make` 命令
 - `cd /work && make sawrm-init` docker swarm init
