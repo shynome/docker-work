@@ -1,0 +1,27 @@
+entryPoints:
+  web:
+    address: ":80"
+
+  websecure:
+    address: ":443"
+
+api:
+  dashboard: true
+
+providers:
+  docker:
+    watch: true
+    swarmMode: true
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik/conf.d/
+    watch: true
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: your-email@example.com
+      storage: /etc/traefik/acme.json
+      httpChallenge:
+        # used during the challenge
+        entryPoint: web

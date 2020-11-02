@@ -1,0 +1,12 @@
+tls:
+  certificates:
+    # certFile 需要完整的证书链
+    - certFile: /etc/traefik/ssl/example.tld.pem
+      keyFile: /etc/traefik/ssl/example.tld.key
+  options:
+    admin:
+      clientAuth:
+        # in PEM format. each file can contain multiple CAs.
+        caFiles:
+          - /etc/traefik/ssl/admin.crt
+        clientAuthType: RequireAndVerifyClientCert

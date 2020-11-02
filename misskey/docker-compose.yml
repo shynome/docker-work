@@ -1,0 +1,64 @@
+version: '3.7'
+
+networks:
+  default:
+    # 必需, 因为升级misskey时要用到内部的数据库
+    attachable: true
+  link:
+    external: true
+    name: main_link
+
+services:
+
+  pg:
+    image: postgres:11.2-alpine@sha256:b93d17a9c65f135172e1f4b4b5a6ed0155f6c32ab1aa5a5fde0b1cdaef728a41
+    volumes:
+      - /work/misskey/data/pg:/var/lib/postgresql/data:rslave
+    environment:
+      POSTGRES_USER: misskey
+      POSTGRES_PASSWORD: 'example-misskey-password'
+    logging: &logging
+      options: { max-size: "200k", max-file: "10" }
+    deploy:  &deploy
+      replicas: 1
+      endpoint_mode: dnsrr
+      restart_policy: { condition: on-failure, max_attempts: 3 }
+      update_config: { parallelism: 0, failure_action: rollback, max_failure_ratio: 1, order: stop-first }
+
+  redis:
+    image: redis:4.0.14-alpine@sha256:c39398ed9823a8e66702e545eb21f17be17e3f6f736ba3329e10f3e7af36b2f2
+    command: "--appendonly yes"
+    volumes:
+      - /work/misskey/data/redis:/data:rslave
+    logging: { <<: *logging }
+    deploy: { <<: *deploy }
+
+  # proxy 使用的时候 misskey_app
+  misskey:
+    # 升级之后再降级会出现不可预料的问题, 所以不要跟随github的最新版本, 选择一个月或半个月之前的版本为好
+    image: ${misskey_version}
+    # main_link网络连接之后才可以被反向代理
+    networks: ["default", "link"]
+    command: [ "npm", "run", "start" ]
+    volumes:
+    - /work/misskey/config:/misskey/.config/:rslave
+    - /work/misskey/data/files:/misskey/files:rslave
+    depends_on: [ 'redis', 'pg' ]
+    logging: { <<: *logging }
+    deploy: &misskey_deploy
+      <<: *deploy
+      # 默认为0, 运行 make misskey-upgrade 之后才能改成 1 正常使用
+      replicas: 0
+      # replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.misskey.rule=Host(`example.tld`)
+        - traefik.http.services.misskey.loadbalancer.server.port=3000
+        # 下面三条规则是https跳转的, 如果运行在cdn后面的话注释掉这个
+        - traefik.http.routers.misskey-http.rule=Host(`example.tld`)
+        - traefik.http.routers.misskey-http.middlewares=http2s@file
+        - traefik.http.routers.misskey-http.service=noop@internal
+        # 自己有证书的话使用这个, 没有的话使用下面那个自动续签. 还有种情况cf开启TLS Full(strict)模式也是需要手动提供证书的
+        - traefik.http.routers.misskey.tls=true
+        # acme 自动续签
+        # - traefik.http.routers.misskey.tls.certresolver=myresolver
