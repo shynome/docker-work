@@ -52,6 +52,8 @@ services:
       # replicas: 1
       labels:
         - traefik.enable=true
+        # 指定 traefik 连接的网络, 不指定的话会选择第一个网络, 大概率会选中 `misskey_default` 网络导致网关超时
+        - traefik.docker.network=main_link
         - traefik.http.routers.misskey.rule=Host(`example.tld`)
         - traefik.http.services.misskey.loadbalancer.server.port=3000
         # 下面三条规则是https跳转的, 如果运行在cdn后面的话注释掉这个
