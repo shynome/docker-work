@@ -7,7 +7,7 @@
 
 #### 修改域名
 
-修改 `docker-compose.yml` 中的 `example.tld` 为你要使用的域名
+修改 `docker-compose.yml` 中的 `example.tld` 为你要使用的域名    
 修改 `config/default.yml` 中的 `example.tld` 为你要使用的域名
 
 在 `docker-compose.yml` 的域名修改处有一些说明
