@@ -16,7 +16,7 @@
 
 ### 修改 dashborad 访问密码
 
-使用下方重新生成 dashboard 的访问密码, 把输出内容替换掉 `traefik/conf.d/dashboard.yml` 中的 `users`
+使用下方命令重新生成 dashboard 的访问密码, 把输出内容替换掉 `traefik/conf.d/dashboard.yml` 中的 `users`    
 `docker run --rm -ti xmartlabs/htpasswd username password`
 
 ### 修改 Let's Encrypt 的联系邮箱
