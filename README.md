@@ -28,10 +28,10 @@
 - `make update` 部署服务, 会占用 80 和 443 端口
 - `make ls` 查看服务是否启动完成, 耐心等待, 初次运行要下载镜像, 需要的时间比较久一点
 
-如果特别久的话用 `docker service ps main_proxy` 查看是否 `ERROR` 一栏是否出现错误, 如果`STATE`一栏是 `Pending` 就说明还在拉取镜像, 继续等待即可
+如果特别久的话用 `docker service ps main_proxy` 查看是否 `ERROR` 一栏是否出现错误, 如果`STATE`一栏是 `Pending` 就说明还在拉取镜像, 继续等待即可    
 如果有错的话用 `docker inspect 1g4` (`1g4`是 `ID` 一栏中的前三位) 查看错误的 Task 详情
 
-在你的电脑 hosts 里添加一条新的 host `127.0.0.1 dashboard.traefik`, 其中 `127.0.0.1` 换成你的服务器 ip
+在你的电脑 hosts 里添加一条新的 host `127.0.0.1 dashboard.traefik`, 其中 `127.0.0.1` 换成你的服务器 ip    
 然后访问 `http://dashboard.traefik` 输入你的帐号密码查看 traefik 的状态
 
 ## 部署 misskey
@@ -66,7 +66,7 @@ docker run \
 
 ## 主机迁移
 
-打包 `/work` 目录即可.
+打包 `/work` 目录即可.    
 注意: 这样是不带日志, 容器镜像的, 到新服务器是要重新下载容器镜像的, 日志是会丢失掉的, 如果要打包这些的话, 把 docker 的 data-root 文件夹也打包过去即可
 
 - `ssh old-server`
