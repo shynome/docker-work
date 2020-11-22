@@ -9,7 +9,7 @@
 - `git clone https://github.com/shynome/docker-work.git /work` 克隆本仓库到服务器上
 - `curl -sSL https://get.docker.com | sh` 安装 docker    
   注: 国内可使用阿里云镜像 `curl -sSL https://get.docker.com | sh -s -- --mirror Aliyun`
-- `apt install automake` 安装 `make` 命令
+- `apt install make` 安装 `make` 命令
 - `cd /work && make swarm-init` docker swarm init
 
 ## 修改配置
