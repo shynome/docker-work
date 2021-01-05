@@ -29,6 +29,8 @@ services:
       - { mode: host, protocol: tcp, target: 443, published: 443 }
     volumes:
       - /work/caddy:/etc/caddy/:rslave
+      # caddy 申请证书用到的目录
+      - /work/caddy/data:/data/caddy/:rslave
     logging: &logging
       options: { max-size: "200k", max-file: "10" }
     deploy:  &deploy
