@@ -37,6 +37,8 @@ services:
   misskey:
     # 升级之后再降级会出现不可预料的问题, 所以不要跟随github的最新版本, 选择一个月或半个月之前的版本为好
     image: ${misskey_version}
+    ports:
+      - { mode: host, protocol: tcp, target: 3000, published: 3000 }
     # main_link网络连接之后才可以被反向代理
     networks: ["default", "link"]
     command: [ "npm", "run", "start" ]
@@ -48,19 +50,5 @@ services:
     deploy: &misskey_deploy
       <<: *deploy
       # 默认为0, 运行 make misskey-upgrade 之后才能改成 1 正常使用
-      replicas: 0
-      # replicas: 1
-      labels:
-        - traefik.enable=true
-        # 指定 traefik 连接的网络, 不指定的话会选择第一个网络, 大概率会选中 `misskey_default` 网络导致网关超时
-        - traefik.docker.network=main_link
-        - traefik.http.routers.misskey.rule=Host(`example.tld`)
-        - traefik.http.services.misskey.loadbalancer.server.port=3000
-        # 下面三条规则是https跳转的, 如果运行在cdn后面的话注释掉这个
-        - traefik.http.routers.misskey-http.rule=Host(`example.tld`)
-        - traefik.http.routers.misskey-http.middlewares=http2s@file
-        - traefik.http.routers.misskey-http.service=noop@internal
-        # 自己有证书的话使用这个, 没有的话使用下面那个自动续签. 还有种情况cf开启TLS Full(strict)模式也是需要手动提供证书的
-        - traefik.http.routers.misskey.tls=true
-        # acme 自动续签
-        # - traefik.http.routers.misskey.tls.certresolver=myresolver
+      # replicas: 0
+      replicas: 1

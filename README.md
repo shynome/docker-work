@@ -12,17 +12,6 @@
 - `apt install make` 安装 `make` 命令
 - `cd /work && make swarm-init` docker swarm init
 
-## 修改配置
-
-### 修改 dashborad 访问密码
-
-使用下方命令重新生成 dashboard 的访问密码, 把输出内容替换掉 `traefik/conf.d/dashboard.yml` 中的 `users`    
-`docker run --rm -ti xmartlabs/htpasswd username password`
-
-### 修改 Let's Encrypt 的联系邮箱
-
-替换 `traefik/traefik.yml` 中的 `your-email@example.com` 为你的联系邮箱
-
 ## 启动
 
 - `make update` 部署服务, 会占用 80 和 443 端口
@@ -31,14 +20,17 @@
 如果特别久的话用 `docker service ps main_proxy` 查看是否 `ERROR` 一栏是否出现错误, 如果`STATE`一栏是 `Pending` 就说明还在拉取镜像, 继续等待即可    
 如果有错的话用 `docker inspect 1g4` (`1g4`是 `ID` 一栏中的前三位) 查看错误的 Task 详情
 
-在你的电脑 hosts 里添加一条新的 host `127.0.0.1 dashboard.traefik`, 其中 `127.0.0.1` 换成你的服务器 ip    
-然后访问 `http://dashboard.traefik` 输入你的帐号密码查看 traefik 的状态
-
 ## 部署 misskey
 
 [点此跳转](./misskey/README.md)
 
-## 调试
+## 重载caddyserver配置
+
+```sh
+cd /work
+nano caddy/misskey.conf
+make proxy-reload
+```
 
 ### 查看日志
 

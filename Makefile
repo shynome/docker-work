@@ -23,5 +23,5 @@ proxy-logs:
 proxy-restart:
 	docker service update --force ${STACK_NAME}_proxy
 
-# proxy-reload:
-# 	docker stack deploy -c docker-compose.yml ${STACK_NAME}
+proxy-reload:
+	docker exec $$(docker ps --latest --filter label=com.docker.swarm.service.name=${STACK_NAME}_proxy --format='{{.ID}}') caddy reload -config /etc/caddy/Caddyfile

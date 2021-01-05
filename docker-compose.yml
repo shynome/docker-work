@@ -21,15 +21,14 @@ networks:
 services:
 
   proxy:
-    image: traefik:v2.3.2@sha256:6e6d4dc5a19afe06778ca092cdbbb98e31cb9f9c313edafa23f81a0e6ddf8a23
+    image: caddy:2.3.0@sha256:8fda56a5fc2e3f7ec352fe576c270a864249dd2c11033ffaa1251603b2c3ee9a
     networks: [ 'default', 'link' ]
     ports:
       # 这种写法可以获取来源 ip, 但限制是只能有一个这样的容器启动不然会端口冲突, 所以下面的 stop-frist 是必要的
       - { mode: host, protocol: tcp, target: 80, published: 80 }
       - { mode: host, protocol: tcp, target: 443, published: 443 }
     volumes:
-      - /work/traefik:/etc/traefik:rslave
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /work/caddy:/etc/caddy/:rslave
     logging: &logging
       options: { max-size: "200k", max-file: "10" }
     deploy:  &deploy

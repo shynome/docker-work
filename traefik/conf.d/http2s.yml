@@ -1,9 +1,0 @@
-http:
-  middlewares:
-    http2s:
-      redirectScheme:
-        scheme: https
-    http2s_forever:
-      redirectScheme:
-        scheme: https
-        permanent: true

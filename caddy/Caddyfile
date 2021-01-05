@@ -1,0 +1,7 @@
+(common) {
+    log {
+        level WARN
+    }
+}
+
+import *.conf
