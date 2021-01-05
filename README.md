@@ -40,22 +40,6 @@ make proxy-reload
 `--since 0m` 查看多少分钟钱的日志
 `main_proxy` 哪个服务
 
-### 手动运行容器
-
-就是把 docker-compose.yml 里定义的配置都写上去, 执行有错的话会把错误直接输出到控制台
-
-```sh
-docker run \
-    --rm -ti \
-    -p 80:80 \
-    -p 443:443 \
-    -v /work/traefik:/etc/traefik:rslave \
-    -v /var/run/docker.sock:/var/run/docker.sock:ro \
-    --net main_default \
-    --net main_link \
-    traefik:v2.3.2@sha256:6e6d4dc5a19afe06778ca092cdbbb98e31cb9f9c313edafa23f81a0e6ddf8a23
-```
-
 ## 主机迁移
 
 打包 `/work` 目录即可.    
