@@ -7,8 +7,10 @@
 
 #### 修改域名
 
-修改 `caddy/misskey.conf` 中的 `example.tld` 为你要使用的域名  
-修改 `config/default.yml` 中的 `example.tld` 为你要使用的域名
+1. 修改 `caddy/misskey.conf` 中的 `example.tld` 为你要使用的域名  
+1. 修改 `config/default.yml` 中的 `example.tld` 为你要使用的域名
+1. 域名解析指向到该服务器上
+1. `cd /work && make proxy-reload` 重载 proxy 配置, 稍等一会就好了
 
 ### 初始化
 
