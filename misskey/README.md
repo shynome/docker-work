@@ -10,7 +10,8 @@
 1. 修改 `caddy/misskey.conf` 中的 `example.tld` 为你要使用的域名  
 1. 修改 `config/default.yml` 中的 `example.tld` 为你要使用的域名
 1. 域名解析指向到该服务器上
-1. `cd /work && make proxy-reload` 重载 proxy 配置, 稍等一会就好了
+1. `cd /work && make proxy-reload` 重载 proxy 配置, 签发证书要稍等一会 1分钟左右
+1.  然后访问你的域名 `https://example.tld`, 出现 502 就是域名设置成功了, 接下来设置 misskey
 
 ### 初始化
 
